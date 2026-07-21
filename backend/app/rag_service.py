@@ -7,7 +7,12 @@ from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-load_dotenv()
+ENV_PATH = os.path.join(os.path.dirname(__file__), ".env.local")
+load_dotenv(dotenv_path=ENV_PATH)
+
+# Add these lines:
+if not os.getenv("OPENAI_API_KEY"):
+    raise ValueError("OPENAI_API_KEY not found in environment. Check your .env.local file.")
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
