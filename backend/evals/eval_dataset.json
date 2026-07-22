@@ -1,0 +1,416 @@
+[
+  {
+    "id": "Q001",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "What unusual property makes Demacia's petricite more than a material that merely suppresses magic?",
+    "answerable": true,
+    "expected_answer": "Petricite absorbs and stores magical energy and can later release that power.",
+    "expected_keywords": ["petricite", "stores", "magical energy", "release"],
+    "expected_pages": [3]
+  },
+  {
+    "id": "Q002",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "Why did Sylas originally receive imprisonment after working with the Mageseekers?",
+    "answerable": true,
+    "expected_answer": "Sylas tried to protect a child, but his power caused deaths, after which he was imprisoned.",
+    "expected_keywords": ["protect a child", "power", "deaths", "imprisoned"],
+    "expected_pages": [29]
+  },
+  {
+    "id": "Q003",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "What does Ekko use his time-manipulating device to protect?",
+    "answerable": true,
+    "expected_answer": "Ekko uses the device to protect people and communities in Zaun.",
+    "expected_keywords": [
+      "time-manipulating device",
+      "protect",
+      "people",
+      "Zaun"
+    ],
+    "expected_pages": [46]
+  },
+  {
+    "id": "Q004",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "What happened to Gangplank's political power after his apparent death?",
+    "answerable": true,
+    "expected_answer": "His apparent death ended his control of Bilgewater; although he survived, he did not retain power and now seeks to restore it.",
+    "expected_keywords": ["apparent death", "ended", "control", "restore"],
+    "expected_pages": [62]
+  },
+  {
+    "id": "Q005",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "What transformed Diana's disagreement with Solari teaching into an open religious conflict?",
+    "answerable": true,
+    "expected_answer": "Diana discovered evidence of the suppressed Lunari tradition and underwent a celestial transformation that gave her power.",
+    "expected_keywords": [
+      "suppressed Lunari",
+      "celestial transformation",
+      "power",
+      "Solari"
+    ],
+    "expected_pages": [58]
+  },
+  {
+    "id": "Q006",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "What motivates Taliyah to return to Shurima after traveling to learn control of her magic?",
+    "answerable": true,
+    "expected_answer": "She returns because Shurima's restoration threatens ordinary communities.",
+    "expected_keywords": [
+      "Shurima",
+      "restoration",
+      "threatened",
+      "communities"
+    ],
+    "expected_pages": [56]
+  },
+  {
+    "id": "Q007",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "How did Senna change while imprisoned in Thresh's lantern?",
+    "answerable": true,
+    "expected_answer": "She survived among captured souls and returned with transformed abilities, knowledge, and power developed during captivity.",
+    "expected_keywords": [
+      "captured souls",
+      "returned",
+      "transformed abilities",
+      "captivity"
+    ],
+    "expected_pages": [68]
+  },
+  {
+    "id": "Q008",
+    "category": "single-hop",
+    "difficulty": "easy",
+    "question": "Why is Heimerdinger unusually cautious about rapidly advancing technology?",
+    "answerable": true,
+    "expected_answer": "His long life gives him historical perspective and fear of catastrophic inventions advancing faster than institutions can understand them.",
+    "expected_keywords": [
+      "long life",
+      "catastrophic invention",
+      "institutions",
+      "cautious"
+    ],
+    "expected_pages": [43]
+  },
+  {
+    "id": "Q009",
+    "category": "relationship-causal",
+    "difficulty": "medium",
+    "question": "How did Lux's relationship with Sylas contribute to his escape and the Demacian mage crisis?",
+    "answerable": true,
+    "expected_answer": "Lux's sympathy and visits gave Sylas magical knowledge, human contact, and access to magic that he exploited to escape, helping trigger the mage revolt.",
+    "expected_keywords": [
+      "Lux",
+      "visits",
+      "access to magic",
+      "escape",
+      "revolt"
+    ],
+    "expected_pages": [23, 28, 29]
+  },
+  {
+    "id": "Q010",
+    "category": "relationship-causal",
+    "difficulty": "medium",
+    "question": "Why does Renekton now hate Nasus despite originally sacrificing himself to contain Xerath?",
+    "answerable": true,
+    "expected_answer": "Centuries of imprisonment allowed Xerath to corrupt Renekton's memories and convince him that Nasus had betrayed him.",
+    "expected_keywords": ["Xerath", "corrupt", "memories", "Nasus", "betrayed"],
+    "expected_pages": [53, 55]
+  },
+  {
+    "id": "Q011",
+    "category": "relationship-causal",
+    "difficulty": "medium",
+    "question": "Why are Shen and Zed ideological rivals even though both claim to defend Ionia?",
+    "answerable": true,
+    "expected_answer": "Shen prioritizes balance between the material and spirit realms, while Zed embraces forbidden shadow techniques and direct force against invaders.",
+    "expected_keywords": [
+      "Shen",
+      "balance",
+      "Zed",
+      "shadow techniques",
+      "force"
+    ],
+    "expected_pages": [37, 38]
+  },
+  {
+    "id": "Q012",
+    "category": "relationship-causal",
+    "difficulty": "medium",
+    "question": "How did Senna's return change Lucian's goal and their relationship?",
+    "answerable": true,
+    "expected_answer": "Her return forced Lucian to move beyond revenge and rescue toward trust, cooperation, and treating Senna as an equal partner.",
+    "expected_keywords": [
+      "Senna's return",
+      "revenge",
+      "trust",
+      "equal partner"
+    ],
+    "expected_pages": [68, 69]
+  },
+  {
+    "id": "Q013",
+    "category": "relationship-causal",
+    "difficulty": "medium",
+    "question": "Why is Swain's conflict with LeBlanc described as an institutional rivalry rather than a conventional battlefield rivalry?",
+    "answerable": true,
+    "expected_answer": "They compete through information, secret networks, political institutions, and influence over who truly directs Noxus.",
+    "expected_keywords": [
+      "information",
+      "institutions",
+      "Black Rose",
+      "influence",
+      "Noxus"
+    ],
+    "expected_pages": [30, 33]
+  },
+  {
+    "id": "Q014",
+    "category": "relationship-causal",
+    "difficulty": "medium",
+    "question": "Why does Viego's attempt to restore Isolde cause a regional catastrophe rather than simply revive her?",
+    "answerable": true,
+    "expected_answer": "Viego used the sacred waters of the Blessed Isles in a possessive attempt to restore Isolde, causing the Ruination, the Shadow Isles, and the Black Mist.",
+    "expected_keywords": [
+      "Viego",
+      "Isolde",
+      "sacred waters",
+      "Ruination",
+      "Black Mist"
+    ],
+    "expected_pages": [25, 66]
+  },
+  {
+    "id": "Q015",
+    "category": "comparison",
+    "difficulty": "medium",
+    "question": "How do Ashe and Sejuani differ in their proposed methods for ensuring the Freljord's survival?",
+    "answerable": true,
+    "expected_answer": "Ashe seeks unity through alliances, shared identity, and diplomacy, while Sejuani believes survival requires strength and distrusts Ashe's approach as weakness.",
+    "expected_keywords": [
+      "Ashe",
+      "alliance",
+      "Sejuani",
+      "strength",
+      "survival"
+    ],
+    "expected_pages": [48, 49]
+  },
+  {
+    "id": "Q016",
+    "category": "comparison",
+    "difficulty": "medium",
+    "question": "How do Ekko and Viktor differ in their use of invention to address suffering in Zaun?",
+    "answerable": true,
+    "expected_answer": "Ekko focuses on protecting local communities and learning within limits, while Viktor pursues mechanical transformation that raises concerns about consent and identity.",
+    "expected_keywords": [
+      "Ekko",
+      "community",
+      "Viktor",
+      "mechanical transformation",
+      "consent"
+    ],
+    "expected_pages": [46, 47]
+  },
+  {
+    "id": "Q017",
+    "category": "comparison",
+    "difficulty": "medium",
+    "question": "How do Kai'Sa and Malzahar represent opposing responses to the Void?",
+    "answerable": true,
+    "expected_answer": "Kai'Sa survives and resists the Void while retaining protective human goals, whereas Malzahar treats the Void as inevitable revelation and urges surrender.",
+    "expected_keywords": [
+      "Kai'Sa",
+      "survives",
+      "Malzahar",
+      "revelation",
+      "surrender"
+    ],
+    "expected_pages": [74, 75]
+  },
+  {
+    "id": "Q018",
+    "category": "comparison",
+    "difficulty": "medium",
+    "question": "How do Jayce and Heimerdinger differ in their attitudes toward technological risk?",
+    "answerable": true,
+    "expected_answer": "Jayce tends to see opportunities and urgent benefits, while Heimerdinger's long lifespan makes him more cautious about repeating catastrophic technological mistakes.",
+    "expected_keywords": [
+      "Jayce",
+      "opportunities",
+      "Heimerdinger",
+      "long lifespan",
+      "danger"
+    ],
+    "expected_pages": [42, 43]
+  },
+  {
+    "id": "Q019",
+    "category": "comparison",
+    "difficulty": "hard",
+    "question": "How do Pantheon and Aurelion Sol each illustrate resistance to celestial domination?",
+    "answerable": true,
+    "expected_answer": "Atreus survived the defeat of the Aspect that possessed him and reclaimed mortal agency, while Aurelion Sol resists Targonian entities that enslaved him through a magical crown.",
+    "expected_keywords": [
+      "Atreus",
+      "mortal agency",
+      "Aurelion Sol",
+      "magical crown",
+      "enslavement"
+    ],
+    "expected_pages": [59, 60]
+  },
+  {
+    "id": "Q020",
+    "category": "multi-hop",
+    "difficulty": "hard",
+    "question": "How did the Noxian invasion of Ionia contribute both to Irelia's rise and to Swain's later restructuring of Noxian government?",
+    "answerable": true,
+    "expected_answer": "The invasion and her personal losses turned Irelia into a resistance symbol, while Swain's defeat in Ionia contributed to his later transformation and reorganization of Noxus through the Trifarix.",
+    "expected_keywords": [
+      "Noxian invasion",
+      "Irelia",
+      "resistance",
+      "Swain",
+      "Trifarix"
+    ],
+    "expected_pages": [22, 30, 34]
+  },
+  {
+    "id": "Q021",
+    "category": "multi-hop",
+    "difficulty": "hard",
+    "question": "Trace how Xerath's betrayal at Azir's Ascension led to the present conflict between Nasus and Renekton.",
+    "answerable": true,
+    "expected_answer": "Xerath sabotaged the Ascension, prompting Nasus and Renekton to contain him; Renekton became trapped, and Xerath later corrupted his memories so that he blamed Nasus.",
+    "expected_keywords": [
+      "Ascension",
+      "Xerath",
+      "contain",
+      "Renekton",
+      "corrupted memories"
+    ],
+    "expected_pages": [24, 53, 54, 55]
+  },
+  {
+    "id": "Q022",
+    "category": "multi-hop",
+    "difficulty": "hard",
+    "question": "How does Taliyah's story connect Ionia's invasion-era history with concerns about Shurima's restored empire?",
+    "answerable": true,
+    "expected_answer": "Taliyah learned from Yasuo, whose life was shaped by the Noxian invasion of Ionia, and later returned to Shurima because Azir's restored empire threatened ordinary communities.",
+    "expected_keywords": [
+      "Taliyah",
+      "Yasuo",
+      "Noxian invasion",
+      "Azir",
+      "communities"
+    ],
+    "expected_pages": [22, 35, 52, 56]
+  },
+  {
+    "id": "Q023",
+    "category": "multi-hop",
+    "difficulty": "hard",
+    "question": "How did the Ruination create both Thresh's opportunity for power and the later partnership conflict faced by Lucian and Senna?",
+    "answerable": true,
+    "expected_answer": "The Ruination transformed Thresh into a soul-collecting tormentor who imprisoned Senna; Lucian pursued him, and Senna's eventual return changed their relationship from rescue and revenge toward equal partnership.",
+    "expected_keywords": [
+      "Ruination",
+      "Thresh",
+      "imprisoned Senna",
+      "Lucian",
+      "equal partnership"
+    ],
+    "expected_pages": [25, 67, 68, 69]
+  },
+  {
+    "id": "Q024",
+    "category": "confusing-entity",
+    "difficulty": "medium",
+    "question": "Did Yasuo murder the elder he was assigned to protect, and what fact is instead confirmed about his conduct?",
+    "answerable": true,
+    "expected_answer": "No. Yasuo did not commit the murder attributed to him, but he did abandon his assigned post during the invasion.",
+    "expected_keywords": ["did not murder", "abandoned", "post", "invasion"],
+    "expected_pages": [35]
+  },
+  {
+    "id": "Q025",
+    "category": "confusing-entity",
+    "difficulty": "medium",
+    "question": "Is Akali a member of Zed's order because she shares his frustration with Kinkou restraint?",
+    "answerable": true,
+    "expected_answer": "No. Akali shares some frustration with Kinkou restraint, but she does not join Zed's order and rejects complete submission to his methods.",
+    "expected_keywords": ["Akali", "does not join", "Zed", "methods"],
+    "expected_pages": [38, 39]
+  },
+  {
+    "id": "Q026",
+    "category": "confusing-entity",
+    "difficulty": "hard",
+    "question": "Does the document confirm that Kai'Sa and Kassadin completed a family reunion?",
+    "answerable": true,
+    "expected_answer": "No. Their family connection is strongly suggested, but the corpus treats it cautiously and does not document a completed reunion.",
+    "expected_keywords": [
+      "Kai'Sa",
+      "Kassadin",
+      "suggestive connection",
+      "not documented",
+      "reunion"
+    ],
+    "expected_pages": [74, 76, 78]
+  },
+  {
+    "id": "Q027",
+    "category": "unanswerable",
+    "difficulty": "medium",
+    "question": "What is Lux's exact date of birth?",
+    "answerable": false,
+    "expected_answer": "The document does not provide this information.",
+    "expected_keywords": [],
+    "expected_pages": []
+  },
+  {
+    "id": "Q028",
+    "category": "unanswerable",
+    "difficulty": "medium",
+    "question": "What is the model number of Caitlyn's primary weapon?",
+    "answerable": false,
+    "expected_answer": "The document does not provide this information.",
+    "expected_keywords": [],
+    "expected_pages": []
+  },
+  {
+    "id": "Q029",
+    "category": "unanswerable",
+    "difficulty": "hard",
+    "question": "Which champion has the highest numerical magical power level?",
+    "answerable": false,
+    "expected_answer": "The document does not provide this information.",
+    "expected_keywords": [],
+    "expected_pages": []
+  },
+  {
+    "id": "Q030",
+    "category": "unanswerable",
+    "difficulty": "hard",
+    "question": "What is LeBlanc's confirmed legal name and exact age?",
+    "answerable": false,
+    "expected_answer": "The document does not provide this information.",
+    "expected_keywords": [],
+    "expected_pages": []
+  }
+]

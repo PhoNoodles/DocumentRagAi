@@ -4,8 +4,10 @@ from uuid import uuid4
 from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from typing import Any
 
 ENV_PATH = os.path.join(os.path.dirname(__file__), ".env.local")
 load_dotenv(dotenv_path=ENV_PATH)
@@ -68,60 +70,110 @@ def index_document(document_name: str, pages: list[dict]) -> str:
     return document_id
 
 
-def ask_question(question: str, document_id: str | None = None) -> dict:
-    search_kwargs = {"k": 4}
+def ask_question(
+        question: str, 
+        document_id: str | None = None,
+        include_debug: bool = False,
+) -> dict:
+    
+    search_kwargs = {
+        "k": 4
+    }
 
     if document_id:
-        search_kwargs["filter"] = {"document_id": document_id}
-
-    retrieved_docs = vector_store.similarity_search(
-        question,
-        **search_kwargs,
-    )
-
-    if not retrieved_docs:
-        return {
-            "answer": "I could not find that in the uploaded documents.",
-            "sources": [],
+        search_kwargs["filter"] = {
+            "document_id": document_id
         }
 
-    context = "\n\n".join(
-        [
-            f"Source: {doc.metadata['document_name']} page {doc.metadata['page_number']}\n{doc.page_content}"
-            for doc in retrieved_docs
+    retriever = vector_store.as_retriever(
+        search_kwargs=search_kwargs,
+    )
+
+    retrieved_documents = retriever.invoke(question)
+
+    context_parts = []
+    for document in retrieved_documents:
+            document_name = document.metadata.get(
+                "document_name",
+                "Unknown document",
+            )
+
+            page_number = document.metadata.get(
+                "page_number",
+                "Unknown page",
+            )
+
+            context_parts.append(
+                f"""
+                Document: {document_name}
+                Page: {page_number}
+
+                {document.page_content}
+                """.strip()
+                        )
+
+    context = "\n\n---\n\n".join(context_parts)
+
+        
+    messages = [
+        SystemMessage(
+            content=(
+                "Answer the user's question using only the provided context. "
+                "If the context does not contain enough information, say: "
+                "\"I could not find that information in the document.\" "
+                "Do not use outside knowledge."
+            )
+        ),
+        HumanMessage(
+            content=f"""
+        Question:
+        {question}
+
+        Context:
+        {context}
+        """.strip()
+                ),
         ]
-    )
 
-    prompt = f"""
-You are a document intelligence assistant.
+    response = llm.invoke(messages)
 
-Answer the user's question using only the provided context.
 
-If the answer is not in the context, say:
-"I could not find that in the uploaded documents."
+    sources = []
 
-Question:
-{question}
+    for document in retrieved_documents:
+        sources.append(
+            {
+                "document_name": document.metadata.get(
+                    "document_name",
+                    "Unknown document",
+                ),
+                "page_number": document.metadata.get(
+                    "page_number",
+                ),
+                "preview": document.page_content[:300],
+            }
+        )
 
-Context:
-{context}
-"""
-
-    response = llm.invoke(prompt)
-
-    sources = [
-        {
-            "document_name": doc.metadata["document_name"],
-            "page_number": doc.metadata["page_number"],
-            "preview": doc.page_content[:300],
-        }
-        for doc in retrieved_docs
-    ]
-
-    return {
+    result = {
         "answer": response.content,
         "sources": sources,
     }
+
+
+    if include_debug:
+        retrieved_chunks = []
+
+        for document in retrieved_documents:
+            retrieved_chunks.append(
+                {
+                    "content": document.page_content,
+                    "metadata": document.metadata,
+                }
+            )
+
+        result["retrieved_chunks"] = retrieved_chunks
+
+    return result
 
 def get_indexed_chunks(limit: int = 10) -> dict:
     results = vector_store.get(
@@ -144,3 +196,17 @@ def get_indexed_chunks(limit: int = 10) -> dict:
         "count": len(chunks),
         "chunks": chunks,
     }
+
+def retrieve_documents(
+        questions: str,
+        document_id: str | None = None,
+        k: int = 4
+) -> list[Document]:
+    search_kwargs = {"k": k}
+
+    if document_id:
+        search_kwargs["filter"] = {"document_id": document_id}
+
+    retriever = vector_store.as_retriever(**search_kwargs)
+
+    return retriever.invoke(questions)
