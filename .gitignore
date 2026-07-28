@@ -19,3 +19,7 @@ backend/app/storage/uploads/
 backend/evals/results/
 backend/chroma_db/
 backend/.env
+data/chroma_db/
+data/uploads/
+backend/.env
+frontend/.env.production
