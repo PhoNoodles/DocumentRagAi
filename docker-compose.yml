@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: documentai-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/uploads:/app/app/storage/uploads
+      - ./data/chroma_db:/app/chroma_db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: documentai-frontend
+    ports:
+      - "5175:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

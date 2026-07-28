@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import './DocumentUpload.css';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
 
 interface DocumentUploadProps {
   onDocumentUploaded: (documentId: string, filename: string) => void;

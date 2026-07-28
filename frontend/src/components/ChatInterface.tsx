@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type FormEvent } from 'react';
 import axios from 'axios';
 import './ChatInterface.css';
 import SourcesDisplay from './SourcesDisplay';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
 
 interface Source {
   document_name: string;
@@ -37,7 +37,7 @@ function ChatInterface({ documentId }: ChatInterfaceProps) {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = async (e) => {
+  const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim()) return;
 

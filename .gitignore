@@ -15,3 +15,7 @@ node_modules/
 # Vector DB / uploads (large binary files)
 backend/chroma_db/
 backend/uploaded_documents/
+backend/app/storage/uploads/
+backend/evals/results/
+backend/chroma_db/
+backend/.env
