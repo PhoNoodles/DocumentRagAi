@@ -22,6 +22,13 @@ class DocumentRecord(Base):
         nullable=False,
     )
 
+    file_hash: Mapped[str] = mapped_column(
+        String(64),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+
     status: Mapped[str] = mapped_column(
         String(50),
         nullable=False,

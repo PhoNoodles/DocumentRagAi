@@ -24,6 +24,34 @@
   opacity: 0.9;
 }
 
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1rem 0;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.tab-btn.active {
+  background: white;
+  color: #5568d3;
+}
+
 .app-main {
   flex: 1;
   padding: 2rem;
@@ -37,61 +65,22 @@
   max-width: 900px;
 }
 
-.chat-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  padding: 2rem;
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@media (max-width: 600px) {
+  .app-header {
+    padding: 1.5rem 1rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .app-header h1 {
+    font-size: 1.8rem;
   }
-}
 
-.document-info {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid #f0f0f0;
-}
+  .app-main {
+    padding: 1rem;
+  }
 
-.badge {
-  display: inline-block;
-  background: #4caf50;
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.document-info h2 {
-  color: #333;
-  font-size: 1.5rem;
-  margin-top: 0.5rem;
-}
-
-.btn-reset {
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #667eea;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 600;
-  transition: background 0.3s ease;
-}
-
-.btn-reset:hover {
-  background: #5568d3;
+  .tab-btn {
+    flex: 1;
+    padding: 0.65rem 0.5rem;
+    font-size: 0.9rem;
+  }
 }

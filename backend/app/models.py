@@ -5,7 +5,7 @@ class ChatRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     question: str = Field(min_length=1)
-    document_id: str | None = None
+    document_id: list[str] = Field(min_length=1)
 
 
 class Source(BaseModel):

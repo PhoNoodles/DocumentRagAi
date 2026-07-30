@@ -1,0 +1,47 @@
+services:
+  backend:
+    build:
+      context: ./backend
+
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/app
+          target: /app/app
+          initial_sync: true
+
+        - action: sync
+          path: ./backend/alembic
+          target: /app/alembic
+          initial_sync: true
+
+        - action: rebuild
+          path: ./backend/requirements.txt
+
+        - action: rebuild
+          path: ./backend/Dockerfile
+
+  frontend:
+    build:
+      target: development
+
+    ports: !override
+      - "5175:5173"
+
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+
+        - action: rebuild
+          path: ./frontend/package.json
+
+        - action: rebuild
+          path: ./frontend/package-lock.json

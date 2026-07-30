@@ -1,86 +1,66 @@
-import { useState, useRef, useEffect, type FormEvent } from 'react';
-import axios from 'axios';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import './ChatInterface.css';
 import SourcesDisplay from './SourcesDisplay';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
-
-interface Source {
-  document_name: string;
-  page_number: number;
-  preview: string;
-}
-
-interface Message {
-  id: number;
-  role: 'user' | 'assistant';
-  content: string;
-  sources?: Source[];
-}
+import { askQuestion, createMessageId, getErrorMessage } from '../api';
+import type { ChatMessage } from '../types';
 
 interface ChatInterfaceProps {
-  documentId: string;
+  documentIds: string[];
 }
 
-function ChatInterface({ documentId }: ChatInterfaceProps) {
-  const [messages, setMessages] = useState<Message[]>([]);
+function ChatInterface({ documentIds }: ChatInterfaceProps) {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-
-    const userMessage = input.trim();
-    setInput('');
+  const sendQuestion = async (question: string) => {
     setLoading(true);
     setError(null);
 
-    // Add user message to chat
+    const userMessageId = createMessageId();
     setMessages((prev) => [
       ...prev,
       {
-        id: Date.now(),
+        id: userMessageId,
         role: 'user',
-        content: userMessage,
+        content: question,
       },
     ]);
 
     try {
-      const response = await axios.post<{ answer: string; sources: Source[] }>(
-        `${API_BASE_URL}/chat`,
-        {
-          question: userMessage,
-          document_id: documentId,
-        }
-      );
+      const result = await askQuestion(question, documentIds);
 
-      // Add assistant message with sources from backend
       setMessages((prev) => [
         ...prev,
         {
-          id: Date.now() + 1,
+          id: createMessageId(),
           role: 'assistant',
-          content: response.data.answer,  // This displays the backend's answer
-          sources: response.data.sources,
+          content: result.answer,
+          sources: result.sources,
         },
       ]);
     } catch (err) {
-      setError('Failed to get response. Please try again.');
-      console.error('Chat error:', err);
+      setError(getErrorMessage(err, 'Failed to get response. Please try again.'));
+      setInput(question);
+      setMessages((prev) => prev.filter((m) => m.id !== userMessageId));
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSendMessage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const question = input.trim();
+    if (!question || loading) return;
+
+    setInput('');
+    sendQuestion(question);
   };
 
   return (
@@ -90,15 +70,12 @@ function ChatInterface({ documentId }: ChatInterfaceProps) {
           <div className="empty-state">
             <div className="empty-icon">💬</div>
             <h3>Start Asking Questions</h3>
-            <p>Ask anything about your uploaded document</p>
+            <p>Ask anything about your selected documents</p>
           </div>
         )}
 
         {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`message message-${message.role}`}
-          >
+          <div key={message.id} className={`message message-${message.role}`}>
             <div className="message-content">
               <p>{message.content}</p>
             </div>
@@ -120,11 +97,7 @@ function ChatInterface({ documentId }: ChatInterfaceProps) {
           </div>
         )}
 
-        {error && (
-          <div className="error-banner">
-            ⚠️ {error}
-          </div>
-        )}
+        {error && <div className="error-banner">⚠️ {error}</div>}
 
         <div ref={messagesEndRef} />
       </div>
@@ -134,15 +107,11 @@ function ChatInterface({ documentId }: ChatInterfaceProps) {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask a question about your document..."
+          placeholder="Ask a question about your selected documents..."
           disabled={loading}
           className="chat-input"
         />
-        <button
-          type="submit"
-          disabled={loading || !input.trim()}
-          className="send-btn"
-        >
+        <button type="submit" disabled={loading || !input.trim()} className="send-btn">
           {loading ? '...' : '→'}
         </button>
       </form>

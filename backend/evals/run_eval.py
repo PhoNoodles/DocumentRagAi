@@ -4,6 +4,7 @@ import time
 import re
 from pathlib import Path
 from typing import Any
+import os
 
 
 # This adds the backend root folder to Python's import path.
@@ -18,7 +19,14 @@ EVALS_DIRECTORY = Path(__file__).resolve().parent
 DATASET_PATH = EVALS_DIRECTORY / "eval_dataset.json"
 RESULTS_DIRECTORY = EVALS_DIRECTORY / "results"
 
-DOCUMENT_ID = "21897263-44f6-44ed-b7b0-410464baf828"
+DOCUMENT_ID = os.getenv("EVAL_DOCUMENT_ID")
+
+print("Evaluation document ID:", repr(DOCUMENT_ID))
+
+if not DOCUMENT_ID:
+    raise ValueError(
+        "EVAL_DOCUMENT_ID is required to run the evaluation."
+    )
 
 def load_eval_dataset() -> list[dict[str, Any]]:
     """
@@ -212,6 +220,8 @@ def run_test_case(
     answerable = test_case["answerable"]
 
     start_time = time.perf_counter()
+
+    print("Calling ask_question with document ID:", repr(document_id))
 
     rag_result = ask_question(
         question=question,

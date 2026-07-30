@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import './App.css';
-import DocumentUpload from './components/DocumentUpload';
-import ChatInterface from './components/ChatInterface';
+import UploadPanel from './components/UploadPanel';
+import ChatPanel from './components/ChatPanel';
+
+type Tab = 'upload' | 'chat';
 
 function App() {
-  const [documentId, setDocumentId] = useState<string | null>(null);
-  const [documentName, setDocumentName] = useState<string | null>(null);
-
-  const handleDocumentUploaded = (id: string, filename: string) => {
-    setDocumentId(id);
-    setDocumentName(filename);
-  };
+  const [activeTab, setActiveTab] = useState<Tab>('upload');
 
   return (
     <div className="App">
@@ -19,28 +15,24 @@ function App() {
         <p>Ask questions about your documents</p>
       </header>
 
+      <nav className="tab-nav">
+        <button
+          className={`tab-btn${activeTab === 'upload' ? ' active' : ''}`}
+          onClick={() => setActiveTab('upload')}
+        >
+          Upload Documents
+        </button>
+        <button
+          className={`tab-btn${activeTab === 'chat' ? ' active' : ''}`}
+          onClick={() => setActiveTab('chat')}
+        >
+          Chat
+        </button>
+      </nav>
+
       <main className="app-main">
         <div className="container">
-          {!documentId ? (
-            <DocumentUpload onDocumentUploaded={handleDocumentUploaded} />
-          ) : (
-            <div className="chat-container">
-              <div className="document-info">
-                <span className="badge">✓ Document Loaded</span>
-                <h2>{documentName}</h2>
-              </div>
-              <ChatInterface documentId={documentId} />
-              <button
-                className="btn-reset"
-                onClick={() => {
-                  setDocumentId(null);
-                  setDocumentName(null);
-                }}
-              >
-                Upload Different Document
-              </button>
-            </div>
-          )}
+          {activeTab === 'upload' ? <UploadPanel /> : <ChatPanel />}
         </div>
       </main>
     </div>

@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import './SourcesDisplay.css';
-
-interface Source {
-  document_name: string;
-  page_number: number;
-  preview: string;
-}
+import type { Source } from '../types';
 
 interface SourcesDisplayProps {
   sources: Source[];

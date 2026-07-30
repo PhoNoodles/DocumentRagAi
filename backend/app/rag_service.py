@@ -1,6 +1,4 @@
 import os
-from uuid import uuid4
-
 from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -35,8 +33,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 
-def index_document(document_name: str, pages: list[dict]) -> str:
-    document_id = str(uuid4())
+def index_document(document_id: str, document_name: str, pages: list[dict]) -> str:
 
     documents = []
 
@@ -72,18 +69,19 @@ def index_document(document_name: str, pages: list[dict]) -> str:
 
 def ask_question(
         question: str, 
-        document_id: str | None = None,
+        document_ids: list[str] ,
         include_debug: bool = False,
 ) -> dict:
     
     search_kwargs = {
-        "k": 4
+        "k": 4,
+        "filter" : {
+                    "document_id": {
+                        "$in": document_ids
+                        }
+                },
     }
 
-    if document_id:
-        search_kwargs["filter"] = {
-            "document_id": document_id
-        }
 
     retriever = vector_store.as_retriever(
         search_kwargs=search_kwargs,
@@ -207,6 +205,8 @@ def retrieve_documents(
     if document_id:
         search_kwargs["filter"] = {"document_id": document_id}
 
-    retriever = vector_store.as_retriever(**search_kwargs)
+    retriever = vector_store.as_retriever(
+    search_kwargs=search_kwargs,
+)
 
     return retriever.invoke(questions)
