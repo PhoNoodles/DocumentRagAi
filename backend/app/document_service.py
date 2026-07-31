@@ -49,3 +49,5 @@ def extract_pdf_text(file_path: Path) -> list[dict]:
         })
 
     return pages
+
+

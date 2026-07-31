@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from uuid import uuid4
@@ -10,6 +12,8 @@ from app.database import get_db
 from app.db_models import DocumentRecord
 from pathlib import Path
 import traceback
+
+from datetime import datetime, timezone
 
 app = FastAPI(title="DocuMind AI API")
 
@@ -73,6 +77,10 @@ async def upload_document(
             document_record.filename = file.filename or "unknown.pdf"
             document_record.status = "processing"
             document_record.page_count = None
+            document_record.chunk_size = None
+            document_record.chunk_overlap = None
+            document_record.embedding_model = None
+            document_record.indexed_at = None
 
         # This is a completely new document
         else:
@@ -108,7 +116,7 @@ async def upload_document(
             )
 
         # Create chunks and embeddings in ChromaDB
-        index_document(
+        index_result = index_document(
             document_id=str(document_id),
             document_name=file.filename or "unknown.pdf",
             pages=pages,
@@ -117,6 +125,10 @@ async def upload_document(
         # Update PostgreSQL after indexing succeeds
         document_record.status = "completed"
         document_record.page_count = len(pages)
+        document_record.chunk_size = index_result["chunk_size"]
+        document_record.chunk_overlap = index_result["chunk_overlap"]
+        document_record.embedding_model = index_result["embedding_model"]
+        document_record.indexed_at = datetime.now(timezone.utc)
         db.commit()
 
         return {

@@ -14,7 +14,12 @@ load_dotenv(dotenv_path=ENV_PATH)
 if not os.getenv("OPENAI_API_KEY"):
     raise ValueError("OPENAI_API_KEY not found in environment. Check your .env.local file.")
 
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 200
+EMBEDDING_MODEL = "text-embedding-3-small"
+
+embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
 
 vector_store = Chroma(
     collection_name="documind_documents",
@@ -28,12 +33,12 @@ llm = ChatOpenAI(
 )
 
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,
-    chunk_overlap=200,
+    chunk_size=CHUNK_SIZE,
+    chunk_overlap=CHUNK_OVERLAP,
 )
 
 
-def index_document(document_id: str, document_name: str, pages: list[dict]) -> str:
+def index_document(document_id: str, document_name: str, pages: list[dict]) -> dict:
 
     documents = []
 
@@ -54,7 +59,13 @@ def index_document(document_id: str, document_name: str, pages: list[dict]) -> s
             )
         )
 
+    if not documents:
+        raise ValueError("The document contains no readable text.")
+
     chunks = text_splitter.split_documents(documents)
+
+    if not chunks:
+        raise ValueError("No chunks were created from the document.")
 
     for i, chunk in enumerate(chunks[:3]):
         print("------ CHUNK ------")
@@ -64,7 +75,13 @@ def index_document(document_id: str, document_name: str, pages: list[dict]) -> s
 
     vector_store.add_documents(chunks)
 
-    return document_id
+    return {
+        "document_id": document_id,
+        "chunk_size": CHUNK_SIZE,
+        "chunk_overlap": CHUNK_OVERLAP,
+        "embedding_model": EMBEDDING_MODEL,
+        "chunk_count": len(chunks),
+    }
 
 
 def ask_question(
@@ -217,3 +234,37 @@ def delete_document_chunks(document_id: str) -> None:
             "document_id": document_id,
         }
     )
+
+def create_document_chunks(
+    document_id: str,
+    document_name: str,
+    pages: list[dict],
+) -> list[Document]:
+    documents = []
+
+    for page in pages:
+        page_text = page["text"]
+
+        if not page_text.strip():
+            continue
+
+        documents.append(
+            Document(
+                page_content=page_text,
+                metadata={
+                    "document_id": document_id,
+                    "document_name": document_name,
+                    "page_number": page["page_number"],
+                },
+            )
+        )
+
+    if not documents:
+        raise ValueError("The document contains no readable text.")
+
+    chunks = text_splitter.split_documents(documents)
+
+    if not chunks:
+        raise ValueError("No chunks were created from the document.")
+
+    return chunks
