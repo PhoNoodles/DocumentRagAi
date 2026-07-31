@@ -8,6 +8,9 @@ interface DocumentSelectorProps {
   selectedIds: string[];
   onToggle: (id: string) => void;
   onStartChat: () => void;
+  onRequestDelete?: (doc: DocumentRecord) => void;
+  deletingDocumentIds?: Set<string>;
+  deleteErrors?: Record<string, string>;
 }
 
 function DocumentSelector({
@@ -17,6 +20,9 @@ function DocumentSelector({
   selectedIds,
   onToggle,
   onStartChat,
+  onRequestDelete,
+  deletingDocumentIds,
+  deleteErrors,
 }: DocumentSelectorProps) {
   const canStart = selectedIds.length > 0;
 
@@ -41,6 +47,9 @@ function DocumentSelector({
           {documents.map((doc) => {
             const disabled = doc.status !== 'completed';
             const checked = selectedIds.includes(doc.id);
+            const isDeleting = deletingDocumentIds?.has(doc.id) ?? false;
+            const isProcessing = doc.status === 'processing';
+            const deleteError = deleteErrors?.[doc.id];
             return (
               <li
                 key={doc.id}
@@ -58,6 +67,28 @@ function DocumentSelector({
                     <span className={`status-badge status-${doc.status}`}>{doc.status}</span>
                   </div>
                 </label>
+                {onRequestDelete && (
+                  <div className="selector-item-footer">
+                    <button
+                      type="button"
+                      className="delete-btn"
+                      aria-label={`Delete ${doc.filename}`}
+                      title={isProcessing ? 'Documents that are still processing cannot be deleted yet.' : undefined}
+                      onClick={() => onRequestDelete(doc)}
+                      disabled={isDeleting || isProcessing}
+                    >
+                      {isDeleting ? 'Deleting…' : 'Delete'}
+                    </button>
+                    {deleteError && (
+                      <span className="document-list-item-error" role="alert">
+                        {deleteError}{' '}
+                        <button type="button" className="retry-delete-btn" onClick={() => onRequestDelete(doc)}>
+                          Retry
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                )}
               </li>
             );
           })}

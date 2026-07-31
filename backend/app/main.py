@@ -4,11 +4,11 @@ from uuid import uuid4
 from sqlalchemy.orm import Session
 
 from app.document_service import save_uploaded_file, extract_pdf_text
-from app.rag_service import index_document, ask_question, get_indexed_chunks
+from app.rag_service import index_document, ask_question, get_indexed_chunks, delete_document_chunks
 from app.models import ChatRequest, ChatResponse, UploadResponse
 from app.database import get_db
 from app.db_models import DocumentRecord
-
+from pathlib import Path
 import traceback
 
 app = FastAPI(title="DocuMind AI API")
@@ -69,7 +69,7 @@ async def upload_document(
         if existing_document and existing_document.status == "failed":
             document_record = existing_document
             document_id = existing_document.id
-
+            document_record.file_path = str(file_path)
             document_record.filename = file.filename or "unknown.pdf"
             document_record.status = "processing"
             document_record.page_count = None
@@ -82,6 +82,7 @@ async def upload_document(
                 id=document_id,
                 filename=file.filename or "unknown.pdf",
                 file_hash=file_hash,
+                file_path=str(file_path),
                 status="processing",
             )
 
@@ -214,3 +215,46 @@ def list_documents(
         }
         for document in documents
     ]
+
+@app.delete("/documents/{document_id}")
+def delete_document(
+    document_id: str,
+    db: Session = Depends(get_db),
+):
+    document = (
+        db.query(DocumentRecord)
+        .filter(DocumentRecord.id == document_id)
+        .first()
+    )
+
+    if document is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found.",
+        )
+
+    try:
+        delete_document_chunks(str(document.id))
+
+        file_path = Path(document.file_path)
+
+        if file_path.exists():
+            file_path.unlink()
+
+        db.delete(document)
+        db.commit()
+
+        return {
+            "message": "Document deleted successfully.",
+            "document_id": str(document.id),
+        }
+
+    except Exception as error:
+        db.rollback()
+
+        print("Document deletion failed:", error)
+
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to delete document.",
+        )

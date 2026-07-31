@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { fetchDocuments, getErrorMessage } from '../api';
+import { useDocumentDeletion } from '../hooks/useDocumentDeletion';
 import type { DocumentRecord } from '../types';
 import DocumentSelector from './DocumentSelector';
 import ChatInterface from './ChatInterface';
+import DeleteDocumentDialog from './DeleteDocumentDialog';
 import './ChatPanel.css';
 
 function ChatPanel() {
@@ -31,6 +33,19 @@ function ChatPanel() {
       cancelled = true;
     };
   }, []);
+
+  const handleDocumentDeleted = (documentId: string) => {
+    setDocuments((prev) => prev.filter((doc) => doc.id !== documentId));
+    setSelectedIds((prev) => prev.filter((id) => id !== documentId));
+    setActiveDocumentIds((prev) => {
+      if (!prev || !prev.includes(documentId)) return prev;
+      const next = prev.filter((id) => id !== documentId);
+      return next.length > 0 ? next : null;
+    });
+  };
+
+  const { target, deletingIds, errors, requestDelete, cancelDelete, confirmDelete } =
+    useDocumentDeletion(handleDocumentDeleted);
 
   const toggleSelection = (id: string) => {
     setSelectedIds((prev) =>
@@ -76,14 +91,27 @@ function ChatPanel() {
   }
 
   return (
-    <DocumentSelector
-      documents={documents}
-      loading={documentsLoading}
-      error={documentsError}
-      selectedIds={selectedIds}
-      onToggle={toggleSelection}
-      onStartChat={handleStartChat}
-    />
+    <>
+      <DocumentSelector
+        documents={documents}
+        loading={documentsLoading}
+        error={documentsError}
+        selectedIds={selectedIds}
+        onToggle={toggleSelection}
+        onStartChat={handleStartChat}
+        onRequestDelete={requestDelete}
+        deletingDocumentIds={deletingIds}
+        deleteErrors={errors}
+      />
+      {target && (
+        <DeleteDocumentDialog
+          targetDocument={target}
+          deleting={deletingIds.has(target.id)}
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+        />
+      )}
+    </>
   );
 }
 

@@ -19,7 +19,7 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 vector_store = Chroma(
     collection_name="documind_documents",
     embedding_function=embeddings,
-    persist_directory="./chroma_db",
+    persist_directory="/data/chroma",
 )
 
 llm = ChatOpenAI(
@@ -210,3 +210,10 @@ def retrieve_documents(
 )
 
     return retriever.invoke(questions)
+
+def delete_document_chunks(document_id: str) -> None:
+    vector_store._collection.delete(
+        where={
+            "document_id": document_id,
+        }
+    )

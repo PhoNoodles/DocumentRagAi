@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from 'react';
 import { fetchDocuments, getErrorMessage, uploadDocument } from '../api';
+import { useDocumentDeletion } from '../hooks/useDocumentDeletion';
 import type { DocumentRecord } from '../types';
 import DocumentList from './DocumentList';
+import DeleteDocumentDialog from './DeleteDocumentDialog';
 import './UploadPanel.css';
 
 function UploadPanel() {
@@ -34,6 +36,13 @@ function UploadPanel() {
       .catch((err) => setDocumentsError(getErrorMessage(err, 'Failed to load documents.')))
       .finally(() => setDocumentsLoading(false));
   }, []);
+
+  const handleDocumentDeleted = (documentId: string) => {
+    setDocuments((prev) => prev.filter((doc) => doc.id !== documentId));
+  };
+
+  const { target, deletingIds, errors, requestDelete, cancelDelete, confirmDelete } =
+    useDocumentDeletion(handleDocumentDeleted);
 
   const selectFile = (file: File | undefined) => {
     if (!file) return;
@@ -150,8 +159,24 @@ function UploadPanel() {
             ⟳ Refresh
           </button>
         </div>
-        <DocumentList documents={documents} loading={documentsLoading} error={documentsError} />
+        <DocumentList
+          documents={documents}
+          loading={documentsLoading}
+          error={documentsError}
+          onRequestDelete={requestDelete}
+          deletingDocumentIds={deletingIds}
+          deleteErrors={errors}
+        />
       </div>
+
+      {target && (
+        <DeleteDocumentDialog
+          targetDocument={target}
+          deleting={deletingIds.has(target.id)}
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+        />
+      )}
     </div>
   );
 }

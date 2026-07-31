@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { DocumentRecord, Source } from './types';
+import type { DeleteDocumentResponse, DocumentRecord, Source } from './types';
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
 
@@ -53,6 +53,11 @@ export async function askQuestion(
     question,
     document_ids: documentIds,
   });
+  return response.data;
+}
+
+export async function deleteDocument(documentId: string): Promise<DeleteDocumentResponse> {
+  const response = await client.delete<DeleteDocumentResponse>(`/documents/${documentId}`);
   return response.data;
 }
 

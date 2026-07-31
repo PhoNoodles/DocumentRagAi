@@ -29,6 +29,11 @@ class DocumentRecord(Base):
         index=True,
     )
 
+    file_path: Mapped[str] = mapped_column(
+        String(500),
+        nullable=False,
+    )
+    
     status: Mapped[str] = mapped_column(
         String(50),
         nullable=False,
@@ -45,3 +50,5 @@ class DocumentRecord(Base):
         server_default=func.now(),
         nullable=False,
     )
+
+

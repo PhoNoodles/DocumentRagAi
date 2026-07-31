@@ -20,3 +20,8 @@ export interface ChatMessage {
   content: string;
   sources?: Source[];
 }
+
+export interface DeleteDocumentResponse {
+  message: string;
+  document_id: string;
+}

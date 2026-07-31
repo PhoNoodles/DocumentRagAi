@@ -87,6 +87,52 @@
   word-break: break-word;
 }
 
+.selector-item-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0 1rem 0.75rem 2.7rem;
+}
+
+.delete-btn {
+  background: none;
+  border: 1px solid #c62828;
+  color: #c62828;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background: #c62828;
+  color: white;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.document-list-item-error {
+  color: #c62828;
+  font-size: 0.82rem;
+}
+
+.retry-delete-btn {
+  background: none;
+  border: none;
+  color: #c62828;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0;
+}
+
 .status-badge {
   flex-shrink: 0;
   padding: 0.25rem 0.6rem;

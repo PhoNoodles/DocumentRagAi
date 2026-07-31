@@ -36,8 +36,8 @@ services:
       - "8000:8000"
 
     volumes:
-      - ./data/uploads:/app/app/storage/uploads
-      - ./data/chroma_db:/app/chroma_db
+      - chroma_data:/data/chroma
+      - upload_data:/data/uploads
 
     depends_on:
       postgres:
@@ -61,3 +61,5 @@ services:
 
 volumes:
   postgres_data:
+  chroma_data:
+  upload_data:

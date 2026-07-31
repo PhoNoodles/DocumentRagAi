@@ -1,0 +1,77 @@
+.delete-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.delete-dialog {
+  background: white;
+  border-radius: 12px;
+  padding: 1.75rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.delete-dialog h3 {
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.delete-dialog p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.delete-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.delete-dialog-cancel-btn {
+  background: none;
+  border: 1px solid #ccc;
+  color: #444;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.delete-dialog-cancel-btn:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+.delete-dialog-confirm-btn {
+  background: #c62828;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.delete-dialog-confirm-btn:hover:not(:disabled) {
+  background: #a92121;
+}
+
+.delete-dialog-cancel-btn:disabled,
+.delete-dialog-confirm-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
